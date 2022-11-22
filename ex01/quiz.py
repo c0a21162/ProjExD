@@ -1,7 +1,5 @@
 import random
 import datetime
-def main():
-    a = 1
 
 def shutudai(qa_lst):
     qa = random.choice(qa_lst)
