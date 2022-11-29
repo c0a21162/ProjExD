@@ -5,14 +5,14 @@ import tkinter.messagebox as tkm
 def button_click(event):
     btn = event.widget
     num = btn["text"]
-    if num =="=":
+    if num =="=": #
         
         siki = entry.get()
         res = eval(siki)
         entry.delete(0, tk.END)
         entry.insert(tk.END,res)
     
-    elif num == "+/-":
+    elif num == "+/-": #正負の切り替え
         fugo = entry.get()
         gyaku = int(fugo) * -1
         entry.delete(0, tk.END)
@@ -20,10 +20,10 @@ def button_click(event):
 
         
 
-    elif  num == "AC":
+    elif  num == "AC": #オールクリア
         entry.delete(0,tk.END)
     
-    elif  num == "C":
+    elif  num == "C": #一文字ずつクリア
         delete = entry.get()
         entry.delete(len(delete)-1,tk.END)
 
@@ -32,6 +32,7 @@ def button_click(event):
     #練習6
         entry.insert(tk.END,num)
 
+#マウスオーバーで色が変わる
 def b_over(event):
     event.widget["bg"] = "#b0c4de"
 
