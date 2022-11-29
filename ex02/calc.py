@@ -18,8 +18,6 @@ def button_click(event):
         entry.delete(0, tk.END)
         entry.insert(tk.END,gyaku)
 
-        
-
     elif  num == "AC": #オールクリア
         entry.delete(0,tk.END)
     
@@ -38,8 +36,6 @@ def b_over(event):
 
 def b_leave(event):
     event.widget["bg"] = "SystemButtonFace"
-    
-    
 
 #練習1
 root = tk.Tk()
@@ -48,7 +44,6 @@ root.title("電卓")
 
 entry= tk.Entry(root,justify="right",width=10,font = ("",40))
 entry.grid(row=0,column=0,columnspan=4)
-
 
 #練習2
 r,c = 2,0
@@ -64,7 +59,6 @@ for num in suuzi:
         r += 1
         c =0
 r,c = 5,1
-
 
 #練習5
 operators = ["+","-","*","/","="]
@@ -98,6 +92,5 @@ for t in ten:
     button.bind("<Leave>",b_leave)
     c += 1
     
-
 root.mainloop()
     
