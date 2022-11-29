@@ -68,7 +68,7 @@ r,c = 5,1
 
 #練習5
 operators = ["+","-","*","/","="]
-r,c =2,3
+r,c =1,3
 for ope in operators:
     button = tk.Button(root, text=f"{ope}",width=4,height=2,font=("",30))
     button.grid(row = r,column =c)
@@ -79,7 +79,7 @@ for ope in operators:
         r += 1
 
 deleter = ["AC","C"]
-r,c =1,2
+r,c =1,1
 for de in deleter:
     button = tk.Button(root, text=f"{de}",width=4,height=2,font=("",30))
     button.grid(row = r,column =c)
