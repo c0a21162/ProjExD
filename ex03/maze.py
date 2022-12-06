@@ -15,10 +15,13 @@ def key_up(event):
 
 def main_proc():
     global cx,cy,mx,my
+
+    #スタートのお知らせ(無限ループする)
     # while True:
     #     if mx ==1 and my == 1:
     #         tkm.showinfo("スタート","スタート")
     #         break
+    
     if key == "Up": my -= 1
     if key == "Down": my += 1
     if key == "Left": mx -= 1
@@ -30,6 +33,8 @@ def main_proc():
         if key == "Right": mx -= 1
     
     cx,cy = mx * 80 + 40,my * 80 + 40
+    
+    #ゴールのお知らせ
     # if cx == 14:
     #     tkm.showinfo("おめでとう","ゴールだよ")
 
