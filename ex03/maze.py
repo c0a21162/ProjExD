@@ -44,12 +44,7 @@ def main_proc():
     canvas.lift("kokaton")
     
     root.after(100,main_proc)
-
-#def ch_color():
-    
-
-    
-
+ 
 if __name__ == "__main__":
     root = tk.Tk()
     root.title("迷えるこうかとん")
@@ -62,7 +57,6 @@ if __name__ == "__main__":
     mx,my = 1,1
     cx,cy = mx * 80 + 40,my * 80 + 40
     
-
     tori = tk.PhotoImage(file="fig/8.png")
     canvas.create_image(cx,cy,image=tori,tag="kokaton")
     key = ""
