@@ -101,8 +101,9 @@ def main():
         scrn_sfc.blit(bomb_sfc2,bomb_rct2)
 
         #練習8
-        if tori_rct.colliderect(bomb_rct):
+        if tori_rct.colliderect(bomb_rct) or tori_rct.colliderect(bomb_rct2):
             #追加機能2：Game Over
+            pg.mixer.music.stop()
             tori_sfc = pg.image.load("../fig/8.png")
             tori_sfc = pg.transform.rotozoom(tori_sfc,0,8.0)
             tori_rct = tori_sfc.get_rect()
@@ -115,19 +116,20 @@ def main():
             clock.tick(1)  
             return
         
-        if tori_rct.colliderect(bomb_rct2):
-            #追加機能2：Game Over
-            tori_sfc = pg.image.load("../fig/8.png")
-            tori_sfc = pg.transform.rotozoom(tori_sfc,0,8.0)
-            tori_rct = tori_sfc.get_rect()
-            tori_rct.center = 600,350
-            scrn_sfc.blit(tori_sfc,tori_rct)
-            fonto = pg.font.Font(None,80)
-            text = fonto.render("Game Over",True,"RED")
-            scrn_sfc.blit(text,(400,200))
-            pg.display.update()
-            clock.tick(1)  
-            return
+        #issues#7の変更前を一応残してます
+        # if tori_rct.colliderect(bomb_rct2):
+        #     #追加機能2：Game Over
+        #     tori_sfc = pg.image.load("../fig/8.png")
+        #     tori_sfc = pg.transform.rotozoom(tori_sfc,0,8.0)
+        #     tori_rct = tori_sfc.get_rect()
+        #     tori_rct.center = 600,350
+        #     scrn_sfc.blit(tori_sfc,tori_rct)
+        #     fonto = pg.font.Font(None,80)
+        #     text = fonto.render("Game Over",True,"RED")
+        #     scrn_sfc.blit(text,(400,200))
+        #     pg.display.update()
+        #     clock.tick(1)  
+        #     return
 
         pg.display.update()
         clock.tick(1000)  
