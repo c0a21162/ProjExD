@@ -134,8 +134,8 @@ def main():
     # 練習５
     bkd_lst = []
     #追加機能：爆弾の色
-    colors = ["red","green","blue"]#,"pink","yellow"]
-    for i in range(3):
+    colors = ["red","green","blue","pink","yellow"]
+    for i in range(5):
         color = colors[i]
         vx = random.choice([-1,+1])
         vy = random.choice([-1,+1])
