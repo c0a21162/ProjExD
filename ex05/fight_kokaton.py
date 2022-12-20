@@ -2,12 +2,14 @@ import pygame as pg
 import random
 import sys
 
-# MAX_SHOTS = 20  # most player bullets onscreen
-# ALIEN_ODDS = 22  # chances a new alien appears
-# BOMB_ODDS = 60  # chances a new bomb will drop
-# ALIEN_RELOAD = 12  # frames between new aliens
-# SCREENRECT = pg.Rect(0, 0, 640, 480)
-# SCORE = 0
+
+MAX_SHOTS = 20  # most player bullets onscreen
+ALIEN_ODDS = 22  # chances a new alien appears
+BOMB_ODDS = 60  # chances a new bomb will drop
+ALIEN_RELOAD = 12  # frames between new aliens
+SCREENRECT = pg.Rect(0, 0, 640, 480)
+SCORE = 0
+
 
 class Screen:
     def __init__(self, title, wh, img_path):
@@ -21,7 +23,7 @@ class Screen:
         self.sfc.blit(self.bgi_sfc, self.bgi_rct) 
 
 
-class Bird():#(pg.sprite.Sprite):
+class Bird:#(pg.sprite.Sprite):
     speed = 10
     bounce = 24
     gun_offset = -11
@@ -58,6 +60,7 @@ class Bird():#(pg.sprite.Sprite):
                 self.rct.centerx -= delta[0]
                 self.rct.centery -= delta[1]
         self.blit(scr)                    
+
 
 #追加したかった機能：ビーム
 class Shot:#(pg.sprite.Sprite):                                                
@@ -99,6 +102,7 @@ class Bomb:
         self.vx *= yoko
         self.vy *= tate
         self.blit(scr)
+
 
 #追加機能：音楽
 def sound():                                        
@@ -163,13 +167,12 @@ def main():
 
         kkt.update(scr)
         for bomb in bkd_lst:
-            
             bomb.update(scr)
             if kkt.rct.colliderect(bomb.rct):
                 #追加機能：Game Over
                 pg.mixer.music.stop()
                 tori_sfc = pg.image.load("../fig/8.png")
-                tori_sfc = pg.transform.rotozoom(tori_sfc,0,8.0)
+                tori_sfc = pg.transform.rotozoom(tori_sfc, 0,8.0)
                 tori_rct = tori_sfc.get_rect()
                 tori_rct.center = 600,350
                 scr.sfc.blit(tori_sfc,tori_rct)
@@ -184,10 +187,6 @@ def main():
         clock.tick(1000)
 
         
-            
-            
-            
-
 if __name__ == "__main__":
     sound()
     pg.init()
