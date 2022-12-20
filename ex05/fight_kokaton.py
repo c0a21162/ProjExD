@@ -59,7 +59,7 @@ class Bird():#(pg.sprite.Sprite):
                 self.rct.centery -= delta[1]
         self.blit(scr)                    
 
-
+#追加したかった機能：ビーム
 class Shot:#(pg.sprite.Sprite):                                                
 
     def __init__(self, chr: Bird):
@@ -100,6 +100,7 @@ class Bomb:
         self.vy *= tate
         self.blit(scr)
 
+#追加機能：音楽
 def sound():                                        
     pg.mixer.init(frequency = 44100)
     pg.mixer.music.load("../fig/Clav_Dungeon.mp3")
@@ -132,6 +133,7 @@ def main():
 
     # 練習５
     bkd_lst = []
+    #追加機能：爆弾の色
     colors = ["red","green","blue"]#,"pink","yellow"]
     for i in range(3):
         color = colors[i]
@@ -164,6 +166,7 @@ def main():
             
             bomb.update(scr)
             if kkt.rct.colliderect(bomb.rct):
+                #追加機能：Game Over
                 pg.mixer.music.stop()
                 tori_sfc = pg.image.load("../fig/8.png")
                 tori_sfc = pg.transform.rotozoom(tori_sfc,0,8.0)
