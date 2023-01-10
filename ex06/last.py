@@ -73,10 +73,10 @@ class Bomb:
 
 
 #追加機能：音楽
-def sound():                                        
-    pg.mixer.init(frequency = 44100)
-    pg.mixer.music.load("../fig/NES-Shooter-C04-1(Stage3).mp3")
-    pg.mixer.music.play(1)
+#def sound():                                        
+ #   pg.mixer.init(frequency = 44100)
+  #  pg.mixer.music.load("../fig/NES-Shooter-C04-1(Stage3).mp3")
+   # pg.mixer.music.play(1)
 
 def check_bound(obj_rct, scr_rct):
     yoko, tate = +1, +1
@@ -89,8 +89,8 @@ def check_bound(obj_rct, scr_rct):
 
 def main():
     clock =pg.time.Clock()
-    scr = Screen("負けるな！こうかとん", (1200,700), "../fig/side02.jpg")
-    kkt = Bird("../fig/3.png", 1.0, (600,650))
+    scr = Screen("負けるな！こうかとん", (1200,700), "fig/pg_bg.jpg")
+    kkt = Bird("fig/3.png", 1.0, (600,650))
     kkt.update(scr)
 
     # 追加機能：弾幕
@@ -112,7 +112,11 @@ def main():
             if event.type == pg.QUIT:
                 return
         kkt.update(scr)
-       
+
+        key_dct = pg.key.get_pressed()
+        if key_dct[pg.K_t]:
+            pg.time.wait(1000)
+
         for bomb in bkd_lst:
             bomb.update(scr)
             if kkt.rct.colliderect(bomb.rct):
@@ -136,7 +140,7 @@ def main():
 
         
 if __name__ == "__main__":
-    sound()
+    #sound()
     pg.init()
     main()
     pg.quit()
