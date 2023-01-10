@@ -94,7 +94,7 @@ def main():
     kkt.update(scr)
 
     # 追加機能：弾幕
-    sleep(3)
+    sleep(3) #3秒待つ
     bkd_lst = []
     def mk_bomb(scr:Screen):
         colors = ["red","orange","yellow","green","light blue","blue","purple"]
@@ -104,7 +104,7 @@ def main():
             vy = random.choice([-1,+1])
             bkd = Bomb(color, 10, (vx, vy),scr)
             bkd_lst.append(bkd)
-    schedule.every(0.5).seconds.do(mk_bomb,scr=scr)
+    schedule.every(0.5).seconds.do(mk_bomb,scr=scr) #0.5秒に一回動作する
     
     while True:        
         scr.blit()
@@ -130,7 +130,7 @@ def main():
                 clock.tick(1)  
                 return
         
-        schedule.run_pending()
+        schedule.run_pending() #スケジュールを行う
         pg.display.update()
         clock.tick(1000)
 
