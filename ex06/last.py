@@ -4,15 +4,6 @@ import sys
 from time import sleep
 import schedule
 
-
-MAX_SHOTS = 20  # most player bullets onscreen
-ALIEN_ODDS = 22  # chances a new alien appears
-BOMB_ODDS = 60  # chances a new bomb will drop
-ALIEN_RELOAD = 12  # frames between new aliens
-SCREENRECT = pg.Rect(0, 0, 640, 480)
-SCORE = 0
-
-
 class Screen:
     def __init__(self, title, wh, img_path):
         pg.display.set_caption(title) 
@@ -89,13 +80,7 @@ def sound():
     pg.mixer.music.load("../fig/NES-Shooter-C04-1(Stage3).mp3")
     pg.mixer.music.play(1)
 
-
 def check_bound(obj_rct, scr_rct):
-    """
-    第1引数：こうかとんrectまたは爆弾rect
-    第2引数：スクリーンrect
-    範囲内：+1／範囲外：-1
-    """
     yoko, tate = +1, +1
     if obj_rct.left < scr_rct.left or scr_rct.right < obj_rct.right:
         yoko = -1
@@ -106,12 +91,7 @@ def check_bound(obj_rct, scr_rct):
 
 def main():
     clock =pg.time.Clock()
-    
-
-    # 練習１
     scr = Screen("負けるな！こうかとん", (1200,700), "../fig/side02.jpg")
-
-    # 練習３
     kkt = Bird("../fig/3.png", 1.0, (600,650))
     kkt.update(scr)
 
@@ -126,18 +106,13 @@ def main():
             vy = random.choice([-1,+1])
             bkd = Bomb(color, 10, (vx, vy),scr)
             bkd_lst.append(bkd)
-    
     schedule.every(0.5).seconds.do(mk_bomb,scr=scr)
     
-    # 練習２
     while True:        
         scr.blit()
-        keystate = pg.key.get_pressed()
-        #firing = keystate[pg.K_SPACE]
         for event in pg.event.get():
             if event.type == pg.QUIT:
                 return
-
         kkt.update(scr)
        
         for bomb in bkd_lst:
@@ -159,8 +134,6 @@ def main():
         
         schedule.run_pending()
         pg.display.update()
-        
-        #sleep(1)
         clock.tick(1000)
 
         
