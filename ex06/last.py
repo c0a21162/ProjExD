@@ -16,7 +16,7 @@ class Screen:
         self.sfc.blit(self.bgi_sfc, self.bgi_rct) 
 
 
-class Bird:#(pg.sprite.Sprite):
+class Bird:
     speed = 10
     bounce = 24
     gun_offset = -11
@@ -29,7 +29,6 @@ class Bird:#(pg.sprite.Sprite):
     }
 
     def __init__(self, img_path, ratio, xy):
-        #pg.sprite.Sprite.__init__(self.containers)
         self.sfc = pg.image.load(img_path)
         self.sfc = pg.transform.rotozoom(self.sfc, 0, ratio)
         self.rct = self.sfc.get_rect()
@@ -57,13 +56,12 @@ class Bird:#(pg.sprite.Sprite):
 
 class Bomb:
     def __init__(self, color, rad, vxy, scr:Screen):
-        self.sfc = pg.Surface((2*rad, 2*rad)) # 正方形の空のSurface
+        self.sfc = pg.Surface((2*rad, 2*rad))
         self.sfc.set_colorkey((0, 0, 0))
         pg.draw.circle(self.sfc, color, (rad, rad), rad)
-        #pg.image.load("../fig/6.png")
         self.rct = self.sfc.get_rect()
         self.rct.centerx = random.randint(0, scr.rct.width)
-        self.rct.centery = 0 #random.randint(0, scr.rct.height)
+        self.rct.centery = 0
         self.vx, self.vy = vxy
 
     def blit(self, scr:Screen):
