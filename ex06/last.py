@@ -64,32 +64,12 @@ class Bird:#(pg.sprite.Sprite):
         self.blit(scr)                    
 
 
-#追加したかった機能：ビーム
-class Shot:#(pg.sprite.Sprite):                                                
-
-    def __init__(self, chr: Bird):
-        #pg.sprite.Sprite.__init__(self, self.containers)
-        self.sfc = pg.image.load("fig/beam.jfif")
-        self.sfc = pg.transform.rotozoom(self.sfc, 0, 0.2)
-        self.rct = self.sfc.get_rect()
-        self.rct.midleft = chr.rct.center
-
-    def blit(self, scr: Screen):
-        scr.sfc.blit(self.sfc, self.rct)
-    
-    def update(self, scr: Screen):
-        self.rct.move_ip(+1, 0)
-        # yoko, tate = check_bound(self.rct, scr.rct)
-        # self.vx *= yoko
-        # self.vy *= tate
-        self.blit(scr)
-
-
 class Bomb:
     def __init__(self, color, rad, vxy, scr:Screen):
         self.sfc = pg.Surface((2*rad, 2*rad)) # 正方形の空のSurface
         self.sfc.set_colorkey((0, 0, 0))
         pg.draw.circle(self.sfc, color, (rad, rad), rad)
+        #pg.image.load("../fig/6.png")
         self.rct = self.sfc.get_rect()
         self.rct.centerx = random.randint(0, scr.rct.width)
         self.rct.centery = 0 #random.randint(0, scr.rct.height)
@@ -106,7 +86,7 @@ class Bomb:
 #追加機能：音楽
 def sound():                                        
     pg.mixer.init(frequency = 44100)
-    pg.mixer.music.load("../fig/Clav_Dungeon.mp3")
+    pg.mixer.music.load("../fig/NES-Shooter-C04-1(Stage3).mp3")
     pg.mixer.music.play(1)
 
 
@@ -126,31 +106,34 @@ def check_bound(obj_rct, scr_rct):
 
 def main():
     clock =pg.time.Clock()
+    
 
     # 練習１
-    scr = Screen("負けるな！こうかとん", (1200,700), "../fig/pg_bg.jpg")
+    scr = Screen("負けるな！こうかとん", (1200,700), "../fig/side02.jpg")
 
     # 練習３
-    kkt = Bird("../fig/6.png", 2.0, (600,350))
+    kkt = Bird("../fig/3.png", 1.0, (600,650))
     kkt.update(scr)
 
-
-    # 練習５
+    # 追加機能：弾幕
+    sleep(3)
     bkd_lst = []
     def mk_bomb(scr:Screen):
-        for i in range(8):
-            color = "red"
+        colors = ["red","orange","yellow","green","light blue","blue","purple"]
+        for i in range(7):
+            color = colors[i]
             vx = random.choice([-1,+1])
             vy = random.choice([-1,+1])
             bkd = Bomb(color, 10, (vx, vy),scr)
             bkd_lst.append(bkd)
-    schedule.every(1).seconds.do(mk_bomb,scr=scr)
+    
+    schedule.every(0.5).seconds.do(mk_bomb,scr=scr)
     
     # 練習２
     while True:        
         scr.blit()
         keystate = pg.key.get_pressed()
-        firing = keystate[pg.K_SPACE]
+        #firing = keystate[pg.K_SPACE]
         for event in pg.event.get():
             if event.type == pg.QUIT:
                 return
