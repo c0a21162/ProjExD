@@ -1,7 +1,7 @@
 import pygame as pg
 import random
 import sys
-import time
+from time import sleep
 import schedule
 
 
@@ -100,17 +100,8 @@ class Bomb:
 
     def update(self, scr:Screen):
         self.rct.move_ip(self.vx, self.vy)
-        # yoko, tate = check_bound(self.rct, scr.rct)
-        # self.vx *= yoko
-        # self.vy *= tate
         self.blit(scr)
 
-# def make_bomb(self,scr:Screen):
-#     color = "red"
-#     vx = random.choice([-1,+1])
-#     vy = random.choice([-1,+1])
-#     bkd = Bomb(color, 10, (vx, vy), scr)
-#     bkd_lst.append(bkd)   
 
 #追加機能：音楽
 def sound():                                        
@@ -146,31 +137,20 @@ def main():
 
     # 練習５
     bkd_lst = []
+    def mk_bomb(scr:Screen):
+        for i in range(8):
+            color = "red"
+            vx = random.choice([-1,+1])
+            vy = random.choice([-1,+1])
+            bkd = Bomb(color, 10, (vx, vy),scr)
+            bkd_lst.append(bkd)
+    schedule.every(1).seconds.do(mk_bomb,scr=scr)
     
-    #追加機能：爆弾の色
-    colors = ["red","green","blue","pink","yellow"]
-    for i in range(5):
-        color = colors[i]
-        vx = random.choice([-1,+1])
-        vy = random.choice([-1,+1])
-        bkd = Bomb(color, 10, (vx, vy), scr)
-        bkd_lst.append(bkd)
-
-
-    #aliens = pg.sprite.Group()
-    # Bird.containers = all
-    # Shot.containers = all
-
-    # bird = Bird()
-
     # 練習２
     while True:        
         scr.blit()
         keystate = pg.key.get_pressed()
         firing = keystate[pg.K_SPACE]
-        # if not bird.reloading and firing and len(shots) < MAX_SHOTS:
-        #     Shot(bird.gunpos())
-        # bird.reloading = firing
         for event in pg.event.get():
             if event.type == pg.QUIT:
                 return
@@ -193,8 +173,11 @@ def main():
                 pg.display.update()
                 clock.tick(1)  
                 return
+        
+        schedule.run_pending()
         pg.display.update()
-        schedule.every(1).seconds.do(main)
+        
+        #sleep(1)
         clock.tick(1000)
 
         
