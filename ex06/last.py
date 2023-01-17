@@ -61,6 +61,10 @@ class Bird:
         self.blit(scr)                    
 
 
+''' 
+C0A21161 岸本
+↓
+'''
 class Sord:
     def __init__(self, img_path, ratio, xy):
         self.sfc = pg.image.load(img_path)
@@ -74,6 +78,10 @@ class Sord:
     def update(self, scr:Screen):
         key_dct = pg.key.get_pressed()
         self.blit(scr) 
+''' 
+↑
+C0A21161 岸本
+''' 
 
 class Bomb:
     def __init__(self, color, rad, vxy, scr:Screen):
@@ -92,12 +100,20 @@ class Bomb:
         self.rct.move_ip(self.vx, self.vy)
         self.blit(scr)
 
-
+''' 
+C0A21162 久野
+↓
+'''
 #追加機能：音楽
 def sound():                                        
     pg.mixer.init(frequency = 44100)
     pg.mixer.music.load("../fig/NES-Shooter-C04-1(Stage3).mp3")
     pg.mixer.music.play(1)
+
+''' 
+↑
+C0A21162 久野
+'''
 
 def check_bound(obj_rct, scr_rct):
     yoko, tate = +1, +1
@@ -129,15 +145,24 @@ def count_keika(self,scr:Screen):  # 3000フレームを数える定義
 '''
 ↑　C0A21155 橋本健
 '''
+
+''' 
+C0A21003 青木
+↓
+'''
 def p_inv(inv):
     if inv > 0:
         inv = inv-1
     return
 
+'''
+↑
+C0A21003 青木
+'''
 
 def main():
     clock =pg.time.Clock()
-    scr = Screen("負けるな！こうかとん", (1200,700), "../fig/6.jpg")
+    scr = Screen("弾幕こうかとん", (1200,700), "../fig/side02.jpg")
 
     kkt = Bird("../fig/3.png", 1.0, (600,650))
     ken = Sord("fig/kenmini.png", 1.0, (x, y))
@@ -145,6 +170,10 @@ def main():
     
     kenkouka = False
 
+    ''' 
+    C0A21162 久野
+    ↓
+    '''
     # 追加機能：弾幕
     sleep(3) #3秒待つ
     bkd_lst = []
@@ -157,22 +186,38 @@ def main():
             bkd = Bomb(color, 10, (vx, vy),scr)
             bkd_lst.append(bkd)
     schedule.every(0.5).seconds.do(mk_bomb,scr=scr) #0.5秒に一回動作する
-    
-    while True:        
+    ''' 
+    ↑
+    C0A21162 久野
+    '''
+
+    while True: 
+        global inv       
         scr.blit()
         for event in pg.event.get():
             if event.type == pg.QUIT:
                 return
-        kkt.update(scr)      
-        delbkdn = []
+        kkt.update(scr)
+        #delbkdn = [] C0A21162 岸本
+        
+        '''
+        C0A21165 中谷
+        ↓
+        '''
         key_dct = pg.key.get_pressed()
         if key_dct[pg.K_t]:
             pg.time.wait(1000)
+        '''
+        ↑
+        C0A21165 中谷
+        '''
 
         for bomb in bkd_lst:
             bomb.update(scr)
             if kkt.rct.colliderect(bomb.rct):
-              global hp
+                global hp
+                if kenkouka:
+                    pass
                 if not inv:
                     hp = hp-1
                     inv_time_s = pg.time.get_ticks()
@@ -182,50 +227,54 @@ def main():
                     inv_time_e = pg.time.get_ticks()
                     if inv_time_e - inv_time_s > 2000:
                         inv = False
-                    if kenkouka:
-                        pass
-                 if hp == 0:
                 #追加機能：Game Over
-                  pg.mixer.music.stop()
-                  tori_sfc = pg.image.load("../fig/8.png")
-                  tori_sfc = pg.transform.rotozoom(tori_sfc, 0,8.0)
-                  tori_rct = tori_sfc.get_rect()
-                  tori_rct.center = 600,350
-                  scr.sfc.blit(tori_sfc,tori_rct)
-                  fonto = pg.font.Font(None,80)
-                  text = fonto.render("Game Over",True,"RED")
-                  scr.sfc.blit(text,(400,200))
-                  pg.display.update()
-                  clock.tick(1)  
-                  return
-
-        for i in range(len(bkd_lst)):
-            bkd_lst[i].update(scr)
-            if kkt.rct.colliderect(bkd_lst[i].rct):
-                if kenkouka:
-                    pass
-                else:
+                if hp ==0:
+                    pg.mixer.music.stop()
+                    tori_sfc = pg.image.load("../fig/8.png")
+                    tori_sfc = pg.transform.rotozoom(tori_sfc, 0,8.0)
+                    tori_rct = tori_sfc.get_rect()
+                    tori_rct.center = 600,350
+                    scr.sfc.blit(tori_sfc,tori_rct)
+                    fonto = pg.font.Font(None,80)
+                    text = fonto.render("Game Over",True,"RED")
+                    scr.sfc.blit(text,(400,200))
                     pg.display.update()
-                    pg.time.wait(1000)
+                    clock.tick(1)  
                     return
+        
+        ''' 
+        C0A21161 岸本
+        ↓
+        '''
+        # for i in range(len(bkd_lst)):
+        #     bkd_lst[i].update(scr)
+        #     if kkt.rct.colliderect(bkd_lst[i].rct):
+        #         if kenkouka:
+        #             pass
+        #         else:
+        #             pg.display.update()
+        #             pg.time.wait(1000)
+        #             return
 
-            if kkt.rct.colliderect(bkd_lst[i].rct) and kenkouka:
-                delbkdn.append(i)
-                bkd.update(scr)
+        #     if kkt.rct.colliderect(bkd_lst[i].rct) and kenkouka:
+        #         delbkdn.append(i)
+        #         bkd.update(scr)
                 
-        for w in delbkdn:
-            bkd_lst.pop(w)
+        # for w in delbkdn:
+        #     bkd_lst.pop(w)
 
-        if kkt.rct.colliderect(ken.rct):
-            kkt = Bird("fig/3.png", 2.0, (x+100,y+100))
-            kenkouka = True
-            kkt.update(scr)
-
+        # if kkt.rct.colliderect(ken.rct):
+        #     kkt = Bird("../fig/3.png", 2.0, (x+100,y+100))
+        #     kenkouka = True
+        #     kkt.update(scr)
+        ''' 
+        ↑
+        C0A21161 岸本
+        '''
         
         schedule.run_pending() #スケジュールを行う
-        pg.display.update()      
-        count_keika()   # 3000フレーム数える定義を呼び出す　C0A21155 橋本健
-        #sleep(1)
+        # count_keika()   # 3000フレーム数える定義を呼び出す　C0A21155 橋本健
+        pg.display.update()
         clock.tick(1000)
 
         
