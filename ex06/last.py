@@ -89,7 +89,7 @@ def check_bound(obj_rct, scr_rct):
 
 def main():
     clock =pg.time.Clock()
-    scr = Screen("負けるな！こうかとん", (1200,700), "../fig/side02.jpg")
+    scr = Screen("弾幕こうかとん", (1200,700), "../fig/side02.jpg")
     kkt = Bird("../fig/3.png", 1.0, (600,650))
     kkt.update(scr)
 
