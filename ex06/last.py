@@ -4,6 +4,10 @@ import sys
 from time import sleep
 import schedule
 
+hp = 2
+inv = False
+inv_time_s = 0
+
 class Screen:
     def __init__(self, title, wh, img_path):
         pg.display.set_caption(title) 
@@ -86,10 +90,20 @@ def check_bound(obj_rct, scr_rct):
         tate = -1
     return yoko, tate
 
+def p_inv(inv):
+    if inv > 0:
+        inv = inv-1
+    return
+
+
 
 def main():
     clock =pg.time.Clock()
+<<<<<<< HEAD
     scr = Screen("負けるな！こうかとん", (1200,700), "../fig/6.jpg")
+=======
+    scr = Screen("弾幕こうかとん", (1200,700), "../fig/side02.jpg")
+>>>>>>> 492fbd04a59df5ac44c47bf670739b7c040cd039
     kkt = Bird("../fig/3.png", 1.0, (600,650))
     kkt.update(scr)
 
@@ -120,19 +134,30 @@ def main():
         for bomb in bkd_lst:
             bomb.update(scr)
             if kkt.rct.colliderect(bomb.rct):
+                global hp
+                if not inv:
+                    hp = hp-1
+                    inv_time_s = pg.time.get_ticks()
+                    inv = True
+                    
+                if inv:
+                    inv_time_e = pg.time.get_ticks()
+                    if inv_time_e - inv_time_s > 2000:
+                        inv = False
                 #追加機能：Game Over
-                pg.mixer.music.stop()
-                tori_sfc = pg.image.load("../fig/8.png")
-                tori_sfc = pg.transform.rotozoom(tori_sfc, 0,8.0)
-                tori_rct = tori_sfc.get_rect()
-                tori_rct.center = 600,350
-                scr.sfc.blit(tori_sfc,tori_rct)
-                fonto = pg.font.Font(None,80)
-                text = fonto.render("Game Over",True,"RED")
-                scr.sfc.blit(text,(400,200))
-                pg.display.update()
-                clock.tick(1)  
-                return
+                if hp ==0:
+                    pg.mixer.music.stop()
+                    tori_sfc = pg.image.load("../fig/8.png")
+                    tori_sfc = pg.transform.rotozoom(tori_sfc, 0,8.0)
+                    tori_rct = tori_sfc.get_rect()
+                    tori_rct.center = 600,350
+                    scr.sfc.blit(tori_sfc,tori_rct)
+                    fonto = pg.font.Font(None,80)
+                    text = fonto.render("Game Over",True,"RED")
+                    scr.sfc.blit(text,(400,200))
+                    pg.display.update()
+                    clock.tick(1)  
+                    return
         
         schedule.run_pending() #スケジュールを行う
         pg.display.update()
