@@ -123,6 +123,27 @@ def check_bound(obj_rct, scr_rct):
         tate = -1
     return yoko, tate
 
+'''
+↓　C0A21155 橋本健
+
+30秒をカウント(1000fpsなので、30,000フレームをカウント)し、
+30秒が経過した際にクリア画面に遷移するトリガーを作動させる、定義
+'''
+
+def count_keika(self,scr:Screen):  # 30秒を数える定義
+    global count
+    count += 1  # 1フレーム経つ毎に変数countを1ずつ大きくする
+    if count < 30000:   # 30000フレーム経っていない場合
+        print(count)
+    elif count >= 30000:    #30000フレーム経った場合    
+        keika = count / 1000
+        print(count)
+        print(keika)
+        self.game_state == CLEAR    # ステータスをCLEARにする
+
+'''
+↑　C0A21155 橋本健
+'''
 
 def main():
     clock =pg.time.Clock()
@@ -177,6 +198,8 @@ def main():
         schedule.run_pending()
         pg.display.update()
         
+        count_keika()   # 30秒数える定義を呼び出す　C0A21155 橋本健
+
         #sleep(1)
         clock.tick(1000)
 
