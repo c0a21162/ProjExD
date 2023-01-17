@@ -54,6 +54,20 @@ class Bird:
         self.blit(scr)                    
 
 
+class Sord:
+    def __init__(self, img_path, ratio, xy):
+        self.sfc = pg.image.load(img_path)
+        self.sfc = pg.transform.rotozoom(self.sfc, 0, ratio)
+        self.rct = self.sfc.get_rect()
+        self.rct.center = xy
+
+    def blit(self, scr:Screen):
+        scr.sfc.blit(self.sfc, self.rct)
+
+    def update(self, scr:Screen):
+        key_dct = pg.key.get_pressed()
+        self.blit(scr) 
+
 class Bomb:
     def __init__(self, color, rad, vxy, scr:Screen):
         self.sfc = pg.Surface((2*rad, 2*rad))
@@ -86,12 +100,17 @@ def check_bound(obj_rct, scr_rct):
         tate = -1
     return yoko, tate
 
+x = random.randint(0, 1200)
+y = random.randint(0, 700)
 
 def main():
     clock =pg.time.Clock()
     scr = Screen("負けるな！こうかとん", (1200,700), "../fig/side02.jpg")
     kkt = Bird("../fig/3.png", 1.0, (600,650))
+    ken = Sord("fig/kenmini.png", 1.0, (x, y))
     kkt.update(scr)
+    
+    kenkouka = False
 
     # 追加機能：弾幕
     sleep(3) #3秒待つ
@@ -113,22 +132,50 @@ def main():
                 return
         kkt.update(scr)
        
+        delbkdn = []
+
         for bomb in bkd_lst:
             bomb.update(scr)
             if kkt.rct.colliderect(bomb.rct):
+                if kkt.rct.colliderect(bomb.rct):
+                    if kenkouka:
+                        pass
+                    else:
                 #追加機能：Game Over
-                pg.mixer.music.stop()
-                tori_sfc = pg.image.load("../fig/8.png")
-                tori_sfc = pg.transform.rotozoom(tori_sfc, 0,8.0)
-                tori_rct = tori_sfc.get_rect()
-                tori_rct.center = 600,350
-                scr.sfc.blit(tori_sfc,tori_rct)
-                fonto = pg.font.Font(None,80)
-                text = fonto.render("Game Over",True,"RED")
-                scr.sfc.blit(text,(400,200))
-                pg.display.update()
-                clock.tick(1)  
-                return
+                        pg.mixer.music.stop()
+                        tori_sfc = pg.image.load("../fig/8.png")
+                        tori_sfc = pg.transform.rotozoom(tori_sfc, 0,8.0)
+                        tori_rct = tori_sfc.get_rect()
+                        tori_rct.center = 600,350
+                        scr.sfc.blit(tori_sfc,tori_rct)
+                        fonto = pg.font.Font(None,80)
+                        text = fonto.render("Game Over",True,"RED")
+                        scr.sfc.blit(text,(400,200))
+                        pg.display.update()
+                        clock.tick(1)  
+                        return
+
+        for i in range(len(bkd_lst)):
+            bkd_lst[i].update(scr)
+            if kkt.rct.colliderect(bkd_lst[i].rct):
+                if kenkouka:
+                    pass
+                else:
+                    pg.display.update()
+                    pg.time.wait(1000)
+                    return
+
+            if kkt.rct.colliderect(bkd_lst[i].rct) and kenkouka:
+                delbkdn.append(i)
+                bkd.update(scr)
+                
+        for w in delbkdn:
+            bkd_lst.pop(w)
+
+        if kkt.rct.colliderect(ken.rct):
+            kkt = Bird("fig/3.png", 2.0, (x+100,y+100))
+            kenkouka = True
+            kkt.update(scr)
         
         schedule.run_pending() #スケジュールを行う
         pg.display.update()
