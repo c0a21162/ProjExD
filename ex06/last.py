@@ -4,6 +4,7 @@ import sys
 from time import sleep
 import schedule
 
+count = 0    # 3000フレームをカウントする際に用いる変数
 hp = 2
 inv = False
 inv_time_s = 0
@@ -106,6 +107,28 @@ def check_bound(obj_rct, scr_rct):
         tate = -1
     return yoko, tate
 
+
+'''
+↓　C0A21155 橋本健
+
+3000フレームをカウントし、
+3000フレームが経過した際にクリア画面に遷移するトリガーを作動させる、定義
+'''
+
+def count_keika(self,scr:Screen):  # 3000フレームを数える定義
+    global count
+    count += 1  # 1フレーム経つ毎に変数countを1ずつ大きくする
+    if count < 3000:   # 3000フレーム経っていない場合
+        print(count)
+    elif count >= 3000:    #3000フレーム経った場合    
+        keika = count / 100
+        print(count)
+        print(keika)
+        self.game_state == CLEAR    # ステータスをCLEARにする(クリア画面に遷移する)
+
+'''
+↑　C0A21155 橋本健
+'''
 def p_inv(inv):
     if inv > 0:
         inv = inv-1
@@ -200,7 +223,9 @@ def main():
 
         
         schedule.run_pending() #スケジュールを行う
-        pg.display.update()
+        pg.display.update()      
+        count_keika()   # 3000フレーム数える定義を呼び出す　C0A21155 橋本健
+        #sleep(1)
         clock.tick(1000)
 
         
