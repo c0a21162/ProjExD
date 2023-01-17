@@ -12,6 +12,7 @@ ALIEN_RELOAD = 12  # frames between new aliens
 SCREENRECT = pg.Rect(0, 0, 640, 480)
 SCORE = 0
 
+count = 0    # 30秒カウントする際に用いる変数
 
 class Screen:
     def __init__(self, title, wh, img_path):
