@@ -99,11 +99,8 @@ def p_inv(inv):
 
 def main():
     clock =pg.time.Clock()
-<<<<<<< HEAD
     scr = Screen("負けるな！こうかとん", (1200,700), "../fig/6.jpg")
-=======
-    scr = Screen("弾幕こうかとん", (1200,700), "../fig/side02.jpg")
->>>>>>> 492fbd04a59df5ac44c47bf670739b7c040cd039
+
     kkt = Bird("../fig/3.png", 1.0, (600,650))
     kkt.update(scr)
 
