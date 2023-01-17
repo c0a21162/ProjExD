@@ -12,7 +12,7 @@ ALIEN_RELOAD = 12  # frames between new aliens
 SCREENRECT = pg.Rect(0, 0, 640, 480)
 SCORE = 0
 
-count = 0    # 30秒カウントする際に用いる変数
+count = 0    # 3000フレームカウントする際に用いる変数
 
 class Screen:
     def __init__(self, title, wh, img_path):
@@ -131,13 +131,13 @@ def check_bound(obj_rct, scr_rct):
 30秒が経過した際にクリア画面に遷移するトリガーを作動させる、定義
 '''
 
-def count_keika(self,scr:Screen):  # 30秒を数える定義
+def count_keika(self,scr:Screen):  # 3000フレームを数える定義
     global count
     count += 1  # 1フレーム経つ毎に変数countを1ずつ大きくする
-    if count < 30000:   # 30000フレーム経っていない場合
+    if count < 3000:   # 3000フレーム経っていない場合
         print(count)
-    elif count >= 30000:    #30000フレーム経った場合    
-        keika = count / 1000
+    elif count >= 3000:    #3000フレーム経った場合    
+        keika = count / 100
         print(count)
         print(keika)
         self.game_state == CLEAR    # ステータスをCLEARにする
@@ -199,7 +199,7 @@ def main():
         schedule.run_pending()
         pg.display.update()
         
-        count_keika()   # 30秒数える定義を呼び出す　C0A21155 橋本健
+        count_keika()   # 3000フレーム数える定義を呼び出す　C0A21155 橋本健
 
         #sleep(1)
         clock.tick(1000)
