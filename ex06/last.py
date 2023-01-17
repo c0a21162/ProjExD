@@ -4,6 +4,12 @@ import sys
 from time import sleep
 import schedule
 
+hp = 2
+inv = False
+inv_time_s = 0
+x = random.randint(0, 1200)
+y = random.randint(0, 700)
+
 class Screen:
     def __init__(self, title, wh, img_path):
         pg.display.set_caption(title) 
@@ -100,12 +106,16 @@ def check_bound(obj_rct, scr_rct):
         tate = -1
     return yoko, tate
 
-x = random.randint(0, 1200)
-y = random.randint(0, 700)
+def p_inv(inv):
+    if inv > 0:
+        inv = inv-1
+    return
+
 
 def main():
     clock =pg.time.Clock()
-    scr = Screen("負けるな！こうかとん", (1200,700), "../fig/side02.jpg")
+    scr = Screen("負けるな！こうかとん", (1200,700), "../fig/6.jpg")
+
     kkt = Bird("../fig/3.png", 1.0, (600,650))
     ken = Sord("fig/kenmini.png", 1.0, (x, y))
     kkt.update(scr)
@@ -130,30 +140,41 @@ def main():
         for event in pg.event.get():
             if event.type == pg.QUIT:
                 return
-        kkt.update(scr)
-       
+        kkt.update(scr)      
         delbkdn = []
+        key_dct = pg.key.get_pressed()
+        if key_dct[pg.K_t]:
+            pg.time.wait(1000)
 
         for bomb in bkd_lst:
             bomb.update(scr)
             if kkt.rct.colliderect(bomb.rct):
-                if kkt.rct.colliderect(bomb.rct):
+              global hp
+                if not inv:
+                    hp = hp-1
+                    inv_time_s = pg.time.get_ticks()
+                    inv = True
+                    
+                if inv:
+                    inv_time_e = pg.time.get_ticks()
+                    if inv_time_e - inv_time_s > 2000:
+                        inv = False
                     if kenkouka:
                         pass
-                    else:
+                 if hp == 0:
                 #追加機能：Game Over
-                        pg.mixer.music.stop()
-                        tori_sfc = pg.image.load("../fig/8.png")
-                        tori_sfc = pg.transform.rotozoom(tori_sfc, 0,8.0)
-                        tori_rct = tori_sfc.get_rect()
-                        tori_rct.center = 600,350
-                        scr.sfc.blit(tori_sfc,tori_rct)
-                        fonto = pg.font.Font(None,80)
-                        text = fonto.render("Game Over",True,"RED")
-                        scr.sfc.blit(text,(400,200))
-                        pg.display.update()
-                        clock.tick(1)  
-                        return
+                  pg.mixer.music.stop()
+                  tori_sfc = pg.image.load("../fig/8.png")
+                  tori_sfc = pg.transform.rotozoom(tori_sfc, 0,8.0)
+                  tori_rct = tori_sfc.get_rect()
+                  tori_rct.center = 600,350
+                  scr.sfc.blit(tori_sfc,tori_rct)
+                  fonto = pg.font.Font(None,80)
+                  text = fonto.render("Game Over",True,"RED")
+                  scr.sfc.blit(text,(400,200))
+                  pg.display.update()
+                  clock.tick(1)  
+                  return
 
         for i in range(len(bkd_lst)):
             bkd_lst[i].update(scr)
@@ -176,6 +197,7 @@ def main():
             kkt = Bird("fig/3.png", 2.0, (x+100,y+100))
             kenkouka = True
             kkt.update(scr)
+
         
         schedule.run_pending() #スケジュールを行う
         pg.display.update()
